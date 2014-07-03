@@ -30,20 +30,20 @@ module.exports = function(grunt) {
 
     // Configuration to be run (and then tested).
     rebound: {
-      default_options: {
+      plaintext: {
         options: {
         },
         files: {
-          'tmp/default_options': ['test/fixtures/testing', 'test/fixtures/123']
+          'tmp/plaintext': ['test/fixtures/plaintext']
         }
       },
-      custom_options: {
+      dom: {
         options: {
           separator: ': ',
           punctuation: ' !!!'
         },
         files: {
-          'tmp/custom_options': ['test/fixtures/testing', 'test/fixtures/123']
+          'tmp/dom': ['test/fixtures/dom',]
         }
       }
     },

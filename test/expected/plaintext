@@ -1,0 +1,18 @@
+(function (){
+var dom0;
+function build() {
+  var el1 = dom0.createTextNode("Testing");
+  return el1;
+}
+var cachedFragment;
+return function template(context, env) {
+  if (!env.dom) { throw "You must specify a dom argument to env"; }
+  if (dom0 === undefined || !dom0.sameAs(env.dom)) {
+    dom0 = env.dom;
+    cachedFragment = build();
+  }
+  var fragment = dom0.cloneNode(cachedFragment, true);
+  var hooks = env.hooks;
+  return fragment;
+};
+}())

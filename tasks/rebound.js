@@ -8,6 +8,8 @@
 
 'use strict';
 
+var rebound = require('reboundjs');
+
 module.exports = function(grunt) {
 
   // Please see the Grunt documentation for more information regarding task
@@ -36,8 +38,8 @@ module.exports = function(grunt) {
         return grunt.file.read(filepath);
       }).join(grunt.util.normalizelf(options.separator));
 
-      // Handle options.
-      src += options.punctuation;
+      // Handle options
+      src = rebound.precompile(src);
 
       // Write the destination file.
       grunt.file.write(f.dest, src);
