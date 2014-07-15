@@ -39,8 +39,6 @@ module.exports = function(grunt) {
       },
       dom: {
         options: {
-          separator: ': ',
-          punctuation: ' !!!'
         },
         files: {
           'tmp/dom': ['test/fixtures/dom',]

@@ -1,18 +1,18 @@
-(function (){
-var dom0;
-function build() {
-  var el1 = dom0.createTextNode("Testing");
-  return el1;
-}
-var cachedFragment;
-return function template(context, env) {
-  if (!env.dom) { throw "You must specify a dom argument to env"; }
-  if (dom0 === undefined || !dom0.sameAs(env.dom)) {
-    dom0 = env.dom;
-    cachedFragment = build();
+(function() {
+  function build(dom) {
+    var el0 = dom.createTextNode("Testing");
+    return el0;
   }
-  var fragment = dom0.cloneNode(cachedFragment, true);
-  var hooks = env.hooks;
-  return fragment;
-};
-}())
+  var cachedFragment;
+  return function template(context, env, contextualElement) {
+    var dom = env.dom, hooks = env.hooks;
+    if (cachedFragment === undefined) {
+      cachedFragment = build(dom);
+    }
+    if (contextualElement === undefined) {
+      contextualElement = dom.document.body;
+    }
+    var fragment = dom.cloneNode(cachedFragment, true);
+    return fragment;
+  };
+}());

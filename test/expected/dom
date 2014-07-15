@@ -1,25 +1,26 @@
-(function (){
-var dom0;
-function build() {
-  var el1 = dom0.createElement("div");
-  var el2 = dom0.createElement("p");
-  dom0.appendChild(el1, el2);
-  var el2 = dom0.createElement("img");
-  dom0.appendChild(el1, el2);
-  return el1;
-}
-var cachedFragment;
-return function template(context, env) {
-  if (!env.dom) { throw "You must specify a dom argument to env"; }
-  if (dom0 === undefined || !dom0.sameAs(env.dom)) {
-    dom0 = env.dom;
-    cachedFragment = build();
+(function() {
+  function build(dom) {
+    var el0 = dom.createElement("div");
+    var el1 = dom.createElement("p");
+    dom.appendChild(el0, el1);
+    var el1 = dom.createElement("img");
+    dom.appendChild(el0, el1);
+    return el0;
   }
-  var fragment = dom0.cloneNode(cachedFragment, true);
-  var hooks = env.hooks;
-  var morph0 = dom0.createMorph(fragment.childNodes[0],-1,-1), element0 = fragment.childNodes[1];
-  hooks.content(morph0, "test1", context, [], {escaped:true}, {hooks: env.hooks, dom: dom0});
-  hooks.element(element0, "attribute", context, ["src",hooks.subexpr("test2", context, [], {types:[],hashTypes:{},hash:{}}, {hooks: env.hooks, dom: dom0})], {types:["string","sexpr"],hashTypes:{},hash:{}}, {hooks: env.hooks, dom: dom0});
-  return fragment;
-};
-}())
+  var cachedFragment;
+  return function template(context, env, contextualElement) {
+    var dom = env.dom, hooks = env.hooks;
+    if (cachedFragment === undefined) {
+      cachedFragment = build(dom);
+    }
+    if (contextualElement === undefined) {
+      contextualElement = dom.document.body;
+    }
+    var fragment = dom.cloneNode(cachedFragment, true);
+    var morph0 = dom.createMorph(fragment.childNodes[0],-1,-1);
+    var element0 = fragment.childNodes[1];
+    hooks.content(morph0, "test1", context, [], {escaped:true}, env);
+    hooks.element(element0, "attribute", context, ["src",hooks.subexpr("test2", context, [], {context:context,types:[],hashTypes:{},hash:{}}, env)], {context:context,types:["string","sexpr"],hashTypes:{},hash:{},element:element0}, env);
+    return fragment;
+  };
+}());

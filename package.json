@@ -28,7 +28,7 @@
     "postinstall": "grunt default"
   },
   "dependencies": {
-    "reboundjs": "~0.0.10",
+    "reboundjs": "^0.0.13",
     "grunt-contrib-jshint": "^0.9.2",
     "grunt-contrib-clean": "^0.5.0",
     "grunt-contrib-nodeunit": "^0.3.3",
@@ -38,6 +38,6 @@
     "grunt": "~0.4.5"
   },
   "keywords": [
-    "gruntplugin"
+    "gruntplugin", "Rebound", "reboundjs", "htmlbars", "backbone", "data binding"
   ]
 }
