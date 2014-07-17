@@ -23,4 +23,4 @@
     hooks.element(element0, "attribute", context, ["src",hooks.subexpr("test2", context, [], {context:context,types:[],hashTypes:{},hash:{}}, env)], {context:context,types:["string","sexpr"],hashTypes:{},hash:{},element:element0}, env);
     return fragment;
   };
-}()); window.Rebound.registerTemplate( "tmp/dom", template);})();
+}()); window.Rebound.registerTemplate( "dom", template);})();

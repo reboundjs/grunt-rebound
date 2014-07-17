@@ -32,6 +32,8 @@ module.exports = function(grunt) {
     rebound: {
       plaintext: {
         options: {
+          destRoot: 'tmp',
+          srcRoot: 'test/fixtures'
         },
         files: {
           'tmp/plaintext.js': ['test/fixtures/plaintext.hbs']
@@ -39,6 +41,8 @@ module.exports = function(grunt) {
       },
       dom: {
         options: {
+          destRoot: 'tmp',
+          srcRoot: 'test/fixtures'
         },
         files: {
           'tmp/dom.js': ['test/fixtures/dom.hbs',]
@@ -46,6 +50,8 @@ module.exports = function(grunt) {
       },
       concat: {
         options: {
+          destRoot: 'tmp',
+          srcRoot: 'test/fixtures'
         },
         files: {
           'tmp/concat.js': [
