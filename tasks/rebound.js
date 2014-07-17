@@ -45,11 +45,11 @@ module.exports = function(grunt) {
 
         // If is a partial
         if(filepath.match(/_[^/]+\.hbs$/gi)){
-          regex = new RegExp(options.srcRoot + '\/_([^/]+)\.hbs$','g');
+          regex = new RegExp(options.srcRoot + '/_([^/]+).hbs$','g');
           src = '(function(){var template = '+src+' window.Rebound.registerPartial( "'+filepath.replace(regex, '$1')+'", template);})();';
         }
         else{
-          regex = new RegExp(options.destRoot + '\/([^/]+)\.js$','g');
+          regex = new RegExp(options.destRoot + '/([^/]+).js$','g');
           src = '(function(){var template = '+src+' window.Rebound.registerTemplate( "'+ f.dest.replace(regex, '$1')+'", template);})();';
         }
 
