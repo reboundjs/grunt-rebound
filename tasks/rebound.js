@@ -37,7 +37,9 @@ module.exports = function(grunt) {
       }).map(function(filepath) {
         // Read file source.
         var src = grunt.file.read(filepath);
-console.log(src)
+        // Minify our HTMLbars template
+        src = src.replace(/\s+/g, ' ').replace(/\n|(>) (<)/g, '$1$2');
+        // Compile
         src = rebound.precompile(src);
 
         // If is a partial
