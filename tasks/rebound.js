@@ -36,7 +36,8 @@ module.exports = function(grunt) {
         }
       }).map(function(filepath) {
         // Read file source.
-        var src = grunt.file.read(filepath);
+        var src = grunt.file.read(filepath),
+            regex;
         // Minify our HTMLbars template
         src = src.replace(/\s+/g, ' ').replace(/\n|(>) (<)/g, '$1$2');
         // Compile
@@ -44,10 +45,12 @@ module.exports = function(grunt) {
 
         // If is a partial
         if(filepath.match(/_[^/]+\.hbs$/gi)){
-          src = '(function(){var template = '+src+' window.Rebound.registerPartial( "'+filepath.replace(/.*\/_([^/]+)\.hbs$/gi, '$1')+'", template);})();';
+          regex = new RegExp(options.srcRoot + '\/_([^/]+)\.hbs$','g');
+          src = '(function(){var template = '+src+' window.Rebound.registerPartial( "'+filepath.replace(regex, '$1')+'", template);})();';
         }
         else{
-          src = '(function(){var template = '+src+' window.Rebound.registerTemplate( "'+ f.dest.replace(/.*\/([^/]+)\.js$/gi, '$1')+'", template);})();';
+          regex = new RegExp(options.destRoot + '\/([^/]+)\.js$','g');
+          src = '(function(){var template = '+src+' window.Rebound.registerTemplate( "'+ f.dest.replace(regex, '$1')+'", template);})();';
         }
 
         return src;

@@ -42,7 +42,7 @@ module.exports = function(grunt) {
       dom: {
         options: {
           destRoot: 'tmp',
-          srcRoot: 'test/fixtures'
+          srcRoot: 'test'
         },
         files: {
           'tmp/dom.js': ['test/fixtures/dom.hbs',]
