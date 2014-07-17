@@ -34,14 +34,25 @@ module.exports = function(grunt) {
         options: {
         },
         files: {
-          'tmp/plaintext': ['test/fixtures/plaintext']
+          'tmp/plaintext.js': ['test/fixtures/plaintext.hbs']
         }
       },
       dom: {
         options: {
         },
         files: {
-          'tmp/dom': ['test/fixtures/dom',]
+          'tmp/dom.js': ['test/fixtures/dom.hbs',]
+        }
+      },
+      concat: {
+        options: {
+        },
+        files: {
+          'tmp/concat.js': [
+            'test/fixtures/dom.hbs',
+            'test/fixtures/plaintext.hbs',
+            'test/fixtures/_partial.hbs'
+          ]
         }
       }
     },

@@ -27,19 +27,19 @@ exports.rebound = {
     // setup here if necessary
     done();
   },
-  som: function(test) {
+  plaintext: function(test) {
     test.expect(1);
 
-    var actual = grunt.file.read('tmp/plaintext');
+    var actual = grunt.file.read('tmp/plaintext.js');
     var expected = grunt.file.read('test/expected/plaintext');
     test.equal(actual, expected, 'should render a text template');
 
     test.done();
   },
-  custom_options: function(test) {
+  dom: function(test) {
     test.expect(1);
 
-    var actual = grunt.file.read('tmp/dom');
+    var actual = grunt.file.read('tmp/dom.js');
     var expected = grunt.file.read('test/expected/dom');
     test.equal(actual, expected, 'should render a template containing dom and mustaches');
 

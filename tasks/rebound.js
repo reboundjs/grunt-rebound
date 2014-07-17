@@ -18,8 +18,8 @@ module.exports = function(grunt) {
   grunt.registerMultiTask('rebound', 'Easily compile your Rebound templates using Grunt.', function() {
     // Merge task-specific and/or target-specific options with these defaults.
     var options = this.options({
-      punctuation: '.',
-      separator: ', '
+      punctuation: '',
+      separator: ''
     });
 
     // Iterate over all specified file groups.
@@ -35,11 +35,21 @@ module.exports = function(grunt) {
         }
       }).map(function(filepath) {
         // Read file source.
-        return grunt.file.read(filepath);
-      }).join(grunt.util.normalizelf(options.separator));
+        var src = grunt.file.read(filepath);
 
-      // Handle options
-      src = rebound.precompile(src);
+        src = rebound.precompile(src);
+
+        // If is a partial
+        if(filepath.match(/_[^/]+\.hbs$/gi)){
+          src = '(function(){var template = '+src+' window.Rebound.registerPartial( "'+filepath+'", template);})();';
+        }
+        else{
+          src = '(function(){var template = '+src+' window.Rebound.registerTemplate( "'+ f.dest.replace('.js', '')+'", template);})();';
+        }
+
+        return src;
+
+      }).join(grunt.util.normalizelf(options.separator));
 
       // Write the destination file.
       grunt.file.write(f.dest, src);

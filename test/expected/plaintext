@@ -1,4 +1,4 @@
-(function() {
+(function(){var template = (function() {
   function build(dom) {
     var el0 = dom.createTextNode("Testing");
     return el0;
@@ -15,4 +15,4 @@
     var fragment = dom.cloneNode(cachedFragment, true);
     return fragment;
   };
-}());
+}()); window.Rebound.registerTemplate( "tmp/plaintext", template);})();
