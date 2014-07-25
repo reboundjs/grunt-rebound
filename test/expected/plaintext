@@ -9,9 +9,6 @@
     if (cachedFragment === undefined) {
       cachedFragment = build(dom);
     }
-    if (contextualElement === undefined) {
-      contextualElement = dom.document.body;
-    }
     var fragment = dom.cloneNode(cachedFragment, true);
     return fragment;
   };
