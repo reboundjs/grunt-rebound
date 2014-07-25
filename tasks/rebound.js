@@ -28,7 +28,7 @@ module.exports = function(grunt) {
       var src = f.src.filter(function(filepath) {
         // Warn on and remove invalid source files (if nonull was set).
         console.log(filepath);
-        if (!grunt.file.exists(filepath)) {
+        if (!grunt.file.exists(filepath) || grunt.file.isDir(filepath)) {
           grunt.log.warn('Source file "' + filepath + '" not found.');
           return false;
         } else {
@@ -37,31 +37,73 @@ module.exports = function(grunt) {
       }).map(function(filepath) {
         // Read file source.
         var src = grunt.file.read(filepath),
+            imports,
+            partials,
+            require,
+            deps = [],
             regex;
+
+
+        // Assemple our dependancies and create require wrapper
+        imports = src.match(/<link .*href=(['"])(.*).html\1.*>/gi);
+        if(imports){
+          imports.forEach(function(importString, index){
+            deps.push('"' + importString.replace(/<link .*href=['"]?\/([^'"]*).html['"]?.*>/gi, '$1') + '"');
+          });
+        }
+        partials = src.match(/\{\{>\s*?['"]?(.*)['"]?\s*?\}\}/gi);
+        if(partials){
+          partials.forEach(function(partial, index){
+            console.log(partial);
+            deps.push('"' + partial.replace(/\{\{>[\s*]?['"]?([^'"]*)['"]?[\s*]?\}\}/gi, '$1') + '"');
+          });
+        }
+        require = "define( ["+ deps.join(', ')  +"], function(){\n";
+
         // Minify our HTMLbars template
         src = src.replace(/\s+/g, ' ').replace(/\n|(>) (<)/g, '$1$2');
+
         // Compile
         src = rebound.precompile(src);
 
+
         // If is a partial
         if(filepath.match(/_[^/]+\.hbs$/gi)){
-          regex = new RegExp(options.srcRoot + '/(.+)/_([^/]+).hbs$','g');
-          src = '(function(){var template = '+src+' window.Rebound.registerPartial( "'+filepath.replace(regex, '$1/$2')+'", template);})();';
+          console.log(options.baseUrl);
+          regex = new RegExp( options.baseUrl + '(.+/)?_([^/]+).hbs$','g');
+          filepath = filepath.replace(regex, '$1$2');
+          src = require + '(function(){var template = '+src+' window.Rebound.registerPartial( "'+ options.baseDest + filepath +'", template);})();\n';
         }
-        else{
-          regex = new RegExp(options.destRoot + '/([^/]+).js$','g');
-          src = '(function(){var template = '+src+' window.Rebound.registerTemplate( "'+ f.dest.replace(regex, '$1')+'", template);})();';
+        else if(filepath.match(/[^/]+\.hbs/gi)){
+          regex = new RegExp( options.baseUrl + '(.+/)?([^/]+).hbs$','g');
+          filepath = filepath.replace(regex, '$1$2');
+          src = '(function(){var template = '+src+' window.Rebound.registerTemplate( "'+ options.baseDest + filepath +'", template);})();\n';
+        }
+        else if(filepath.match(/[^/]+\.html/gi)){
+          regex = new RegExp (options.baseUrl + '(.+/)?([^/]+).html$','g');
+          filepath = filepath.replace(regex, '$1$2');
+          src = '(function(){var template = '+src+' window.Rebound.registerComponent( "'+ options.baseDest + filepath +'", template);})();\n';
         }
 
-        return src;
+        src = require + src + '});';
 
-      }).join('');
+        filepath = filepath.replace(/\.html|\.hbs/ig, '.js');
+        filepath = filepath.replace(options.baseUrl, '');
+
+        return {src: src, filepath: filepath + '.js'};
+
+      }).map(function(comp){
+
+        grunt.file.write(f.dest + '/' + comp.filepath, comp.src);
+        grunt.log.writeln('File "' + f.dest + '/' + comp.filepath + '" created.');
+
+      });
+
 
       // Write the destination file.
-      grunt.file.write(f.dest, src);
+      // grunt.file.write(f.dest, src);
 
       // Print a success message.
-      grunt.log.writeln('File "' + f.dest + '" created.');
     });
   });
 

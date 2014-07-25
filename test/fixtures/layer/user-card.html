@@ -1,0 +1,33 @@
+<element name="user-card">
+  <link rel="import" href="/path/to/imports/stuff.html">
+  <link href='/path/to/imports/stuff.html' rel="import">
+
+  <template>
+    <a href="/profile/{{user.uid}}" class="user-card">
+      <img src="{{user.image}}" alt="{{user.name}}">
+      <h3 class="user-name small-text sans-serif">{{user.name}}asdf</h3>
+      <p class="user-school x-small-text dark-text">{{user.school}}</p>
+      <p class="user-goal serif"><span>${{user.raised}}</span> of ${{user.goal}}</p>
+      <p class="user-tagline x-small-text serif">"{{user.tagline}}"</p>
+      <div class="user-bar"><span style="width:{{user.percent}}"></span></div>
+      {{>path/to/partial}}
+      {{> "path/to/partial"}}
+
+    </a>
+    <span></span>
+  </template>
+  <script>
+    return ({
+      readyCallback: function(event){
+        console.log('USER CARD READY');
+        this.oldValue = this.get('value');
+      }
+      insertedCallback: function(event){
+        console.log("INSERTED", this, this.$el);
+        this.set('someValue', this.get('otherValue'));
+        this.$el.focus();
+        this.$('#awesomeselector');
+      },
+    });
+  </script>
+</element>
