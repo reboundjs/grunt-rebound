@@ -29,7 +29,7 @@ module.exports = function(grunt) {
         // Warn on and remove invalid source files (if nonull was set).
         console.log(filepath);
         if (!grunt.file.exists(filepath) || grunt.file.isDir(filepath)) {
-          grunt.log.warn('Source file "' + filepath + '" not found.');
+          //grunt.log.warn('Source file "' + filepath + '" not found.');
           return false;
         } else {
           return true;
