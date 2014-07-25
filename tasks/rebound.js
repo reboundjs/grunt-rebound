@@ -48,14 +48,14 @@ module.exports = function(grunt) {
         imports = src.match(/<link .*href=(['"])(.*).html\1.*>/gi);
         if(imports){
           imports.forEach(function(importString, index){
-            deps.push('"' + importString.replace(/<link .*href=['"]?\/([^'"]*).html['"]?.*>/gi, '$1') + '"');
+            deps.push('"' + options.baseDest + importString.replace(/<link .*href=['"]?\/([^'"]*).html['"]?.*>/gi, '$1') + '"');
           });
         }
         partials = src.match(/\{\{>\s*?['"]?(.*)['"]?\s*?\}\}/gi);
         if(partials){
           partials.forEach(function(partial, index){
             console.log(partial);
-            deps.push('"' + partial.replace(/\{\{>[\s*]?['"]?([^'"]*)['"]?[\s*]?\}\}/gi, '$1') + '"');
+            deps.push('"' + options.baseDest + partial.replace(/\{\{>[\s*]?['"]?([^'"]*)['"]?[\s*]?\}\}/gi, '$1') + '"');
           });
         }
         require = "define( ["+ deps.join(', ')  +"], function(){\n";
