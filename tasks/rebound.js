@@ -51,6 +51,7 @@ module.exports = function(grunt) {
             deps.push('"' + options.baseDest + importString.replace(/<link .*href=['"]?\/([^'"]*).html['"]?.*>/gi, '$1') + '"');
           });
         }
+        src = src.replace(/<link .*href=(['"])(.*).html\1.*>/gi, '');
         partials = src.match(/\{\{>\s*?['"]?(.*)['"]?\s*?\}\}/gi);
         if(partials){
           partials.forEach(function(partial, index){
@@ -58,7 +59,6 @@ module.exports = function(grunt) {
             deps.push('"' + options.baseDest + partial.replace(/\{\{>[\s*]?['"]?([^'"]*)['"]?[\s*]?\}\}/gi, '$1') + '"');
           });
         }
-        require = "define( ["+ deps.join(', ')  +"], function(){\n";
 
         // Minify our HTMLbars template
         src = src.replace(/\s+/g, ' ').replace(/\n|(>) (<)/g, '$1$2');
@@ -82,8 +82,12 @@ module.exports = function(grunt) {
         else if(filepath.match(/[^/]+\.html/gi)){
           regex = new RegExp (options.baseUrl + '(.+/)?([^/]+).html$','g');
           filepath = filepath.replace(regex, '$1$2');
+          deps.push('"' + options.componentPath + filepath + '"');
           src = '(function(){var template = '+src+' window.Rebound.registerTemplate( "'+ options.baseDest + filepath +'", template);})();\n';
         }
+
+
+        require = "define( ["+ deps.join(', ')  +"], function(){\n";
 
         src = require + src + '});';
 
