@@ -82,7 +82,7 @@ module.exports = function(grunt) {
         else if(filepath.match(/[^/]+\.html/gi)){
           regex = new RegExp (options.baseUrl + '(.+/)?([^/]+).html$','g');
           filepath = filepath.replace(regex, '$1$2');
-          src = '(function(){var template = '+src+' window.Rebound.registerComponent( "'+ options.baseDest + filepath +'", template);})();\n';
+          src = '(function(){var template = '+src+' window.Rebound.registerTemplate( "'+ options.baseDest + filepath +'", template);})();\n';
         }
 
         src = require + src + '});';
