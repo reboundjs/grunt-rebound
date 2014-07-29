@@ -27,7 +27,7 @@ module.exports = function(grunt) {
       // Concat specified files.
       var src = f.src.filter(function(filepath) {
         // Warn on and remove invalid source files (if nonull was set).
-        console.log(filepath);
+
         if (!grunt.file.exists(filepath) || grunt.file.isDir(filepath)) {
           //grunt.log.warn('Source file "' + filepath + '" not found.');
           return false;
@@ -37,59 +37,29 @@ module.exports = function(grunt) {
       }).map(function(filepath) {
         // Read file source.
         var src = grunt.file.read(filepath),
-            imports,
-            partials,
-            require,
-            deps = [],
             regex;
-
-
-        // Assemple our dependancies and create require wrapper
-        imports = src.match(/<link .*href=(['"])(.*).html\1.*>/gi);
-        if(imports){
-          imports.forEach(function(importString, index){
-            deps.push('"' + options.baseDest + importString.replace(/<link .*href=['"]?\/([^'"]*).html['"]?.*>/gi, '$1') + '"');
-          });
-        }
-        src = src.replace(/<link .*href=(['"])(.*).html\1.*>/gi, '');
-        partials = src.match(/\{\{>\s*?['"]?(.*)['"]?\s*?\}\}/gi);
-        if(partials){
-          partials.forEach(function(partial, index){
-            console.log(partial);
-            deps.push('"' + options.baseDest + partial.replace(/\{\{>[\s*]?['"]?([^'"]*)['"]?[\s*]?\}\}/gi, '$1') + '"');
-          });
-        }
-
-        // Minify our HTMLbars template
-        src = src.replace(/\s+/g, ' ').replace(/\n|(>) (<)/g, '$1$2');
-
-        // Compile
-        src = rebound.precompile(src);
-
 
         // If is a partial
         if(filepath.match(/_[^/]+\.hbs$/gi)){
-          console.log(options.baseUrl);
           regex = new RegExp( options.baseUrl + '(.+/)?_([^/]+).hbs$','g');
           filepath = filepath.replace(regex, '$1$2');
-          src = require + '(function(){var template = '+src+' window.Rebound.registerPartial( "'+ options.baseDest + filepath +'", template);})();\n';
         }
         else if(filepath.match(/[^/]+\.hbs/gi)){
           regex = new RegExp( options.baseUrl + '(.+/)?([^/]+).hbs$','g');
           filepath = filepath.replace(regex, '$1$2');
-          src = '(function(){var template = '+src+' window.Rebound.registerTemplate( "'+ options.baseDest + filepath +'", template);})();\n';
         }
         else if(filepath.match(/[^/]+\.html/gi)){
           regex = new RegExp (options.baseUrl + '(.+/)?([^/]+).html$','g');
           filepath = filepath.replace(regex, '$1$2');
-          deps.push('"' + options.componentPath + filepath + '"');
-          src = '(function(){var template = '+src+' window.Rebound.registerTemplate( "'+ options.baseDest + filepath +'", template);})();\n';
         }
 
+        // Compile
+        src = rebound.precompile(src, {
+          filepath: filepath,
+          baseDest: options.baseDest,
+          baseUrl: options.baseUrl
+        });
 
-        require = "define( ["+ deps.join(', ')  +"], function(){\n";
-
-        src = require + src + '});';
 
         filepath = filepath.replace(/\.html|\.hbs/ig, '.js');
         filepath = filepath.replace(options.baseUrl, '');

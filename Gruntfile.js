@@ -34,8 +34,7 @@ module.exports = function(grunt) {
         options: {
           optimize: false,
           baseUrl: 'test/fixtures/',
-          baseDest: 'tmp/',
-          componentPath: 'component/'
+          baseDest: 'tmp/'
         },
         src: 'test/fixtures/**/*',
         dest: 'tmp'
