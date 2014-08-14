@@ -1,0 +1,101 @@
+define( ["tmp/path/to/partial", "tmp/path/to/partial"], function(){
+return (function(){
+  var template = (function() {
+  function build(dom) {
+    var el0 = dom.createDocumentFragment();
+    var el1 = dom.createElement("a");
+    dom.setAttribute(el1,"class","user-card");
+    var el2 = dom.createElement("img");
+    dom.appendChild(el1, el2);
+    var el2 = dom.createElement("h3");
+    dom.setAttribute(el2,"class","user-name small-text sans-serif");
+    var el3 = dom.createTextNode("asdf");
+    dom.appendChild(el2, el3);
+    dom.appendChild(el1, el2);
+    var el2 = dom.createElement("p");
+    dom.setAttribute(el2,"class","user-school x-small-text dark-text");
+    dom.appendChild(el1, el2);
+    var el2 = dom.createElement("p");
+    dom.setAttribute(el2,"class","user-goal serif");
+    var el3 = dom.createElement("span");
+    var el4 = dom.createTextNode("$");
+    dom.appendChild(el3, el4);
+    dom.appendChild(el2, el3);
+    var el3 = dom.createTextNode(" of $");
+    dom.appendChild(el2, el3);
+    dom.appendChild(el1, el2);
+    var el2 = dom.createElement("p");
+    dom.setAttribute(el2,"class","user-tagline x-small-text serif");
+    var el3 = dom.createTextNode("\"");
+    dom.appendChild(el2, el3);
+    var el3 = dom.createTextNode("\"");
+    dom.appendChild(el2, el3);
+    dom.appendChild(el1, el2);
+    var el2 = dom.createElement("div");
+    dom.setAttribute(el2,"class","user-bar");
+    var el3 = dom.createElement("span");
+    dom.appendChild(el2, el3);
+    dom.appendChild(el1, el2);
+    var el2 = dom.createTextNode("");
+    dom.appendChild(el1, el2);
+    var el2 = dom.createTextNode("   ");
+    dom.appendChild(el1, el2);
+    dom.appendChild(el0, el1);
+    var el1 = dom.createElement("span");
+    dom.appendChild(el0, el1);
+    return el0;
+  }
+  var cachedFragment;
+  return function template(context, env, contextualElement) {
+    var dom = env.dom, hooks = env.hooks;
+    if (cachedFragment === undefined) {
+      cachedFragment = build(dom);
+    }
+    var fragment = dom.cloneNode(cachedFragment, true);
+    var element0 = fragment.childNodes[0];
+    dom.repairClonedNode(element0,[7]);
+    var element1 = element0.childNodes[0];
+    var element2 = element0.childNodes[3];
+    var element3 = element0.childNodes[5].childNodes[0];
+    var morph0 = dom.createMorphAt(element0.childNodes[1],-1,0);
+    var morph1 = dom.createMorphAt(element0.childNodes[2],-1,-1);
+    var morph2 = dom.createMorphAt(element2.childNodes[0],0,-1);
+    var morph3 = dom.createMorphAt(element2,1,-1);
+    var morph4 = dom.createMorphAt(element0.childNodes[4],0,1);
+    var morph5 = dom.createMorphAt(element0,5,6);
+    var morph6 = dom.createMorphAt(element0,6,7);
+    hooks.element(element0, "attribute", context, ["href",hooks.subexpr("concat", context, ["/profile/",hooks.subexpr("user.uid", context, [], {context:context,types:[],hashTypes:{},hash:{}}, env)], {context:context,types:["string","sexpr"],hashTypes:{},hash:{}}, env)], {context:context,types:["string","sexpr"],hashTypes:{},hash:{},element:element0}, env);
+    hooks.element(element1, "attribute", context, ["src",hooks.subexpr("user.image", context, [], {context:context,types:[],hashTypes:{},hash:{}}, env)], {context:context,types:["string","sexpr"],hashTypes:{},hash:{},element:element1}, env);
+    hooks.element(element1, "attribute", context, ["alt",hooks.subexpr("user.name", context, [], {context:context,types:[],hashTypes:{},hash:{}}, env)], {context:context,types:["string","sexpr"],hashTypes:{},hash:{},element:element1}, env);
+    hooks.content(morph0, "user.name", context, [], {escaped:true}, env);
+    hooks.content(morph1, "user.school", context, [], {escaped:true}, env);
+    hooks.content(morph2, "user.raised", context, [], {escaped:true}, env);
+    hooks.content(morph3, "user.goal", context, [], {escaped:true}, env);
+    hooks.content(morph4, "user.tagline", context, [], {escaped:true}, env);
+    hooks.element(element3, "attribute", context, ["style",hooks.subexpr("concat", context, ["width:",hooks.subexpr("user.percent", context, [], {context:context,types:[],hashTypes:{},hash:{}}, env)], {context:context,types:["string","sexpr"],hashTypes:{},hash:{}}, env)], {context:context,types:["string","sexpr"],hashTypes:{},hash:{},element:element3}, env);
+    hooks.content(morph5, "partial", context, ["path/to/partial"], {context:context,types:["string"],hashTypes:{},hash:{},escaped:true,morph:morph5}, env);
+    hooks.content(morph6, "partial", context, ["path/to/partial"], {context:context,types:["string"],hashTypes:{},hash:{},escaped:true,morph:morph6}, env);
+    return fragment;
+  };
+}());
+  var script = (function(){ return ({ readyCallback: function(event){ console.log('USER CARD READY'); this.oldValue = this.get('value'); } insertedCallback: function(event){ console.log("INSERTED", this, this.$el); this.set('someValue', this.get('otherValue')); this.$el.focus(); this.$('#awesomeselector'); }, }); })() || {};
+  var style = "";
+  var component = Backbone.Controller.extend(script, { __name: "user-card" });
+  var proto = Object.create(HTMLElement.prototype, {});
+  proto.createdCallback = function(){
+    this.__template = new component({template: template, outlet: this, data: Rebound.seedData});
+    script.createdCallback && script.createdCallback.call(this.__template);
+  }
+  proto.attachedCallback = function(){script.attachedCallback && script.attachedCallback.call(this.__template)};
+  proto.detachedCallback = function(){
+    this.__template.deinitialize();
+    script.detachedCallback && script.detachedCallback.call(this.__template);
+    };
+  proto.attributeChangedCallback = function(attrName, oldVal, newVal){
+    try{ newVal = JSON.parse(newVal); } catch (e){ newVal = newVal; }
+    this.__template.set(attrName, newVal);
+    script.attributeChangedCallback && script.attributeChangedCallback.call(this.__template);
+  }
+  return document.registerElement("user-card", {prototype: proto} );
+})();
+});

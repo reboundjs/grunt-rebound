@@ -45,4 +45,13 @@ exports.rebound = {
 
     test.done();
   },
+  userCard: function(test) {
+    test.expect(1);
+
+    var actual = grunt.file.read('tmp/user-card.js');
+    var expected = grunt.file.read('test/expected/user-card');
+    test.equal(actual, expected, 'should render a web component template with two partials');
+
+    test.done();
+  },
 };
