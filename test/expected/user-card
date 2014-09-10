@@ -80,7 +80,7 @@ return (function(){
 }());
   var script = (function(){ return ({ readyCallback: function(event){ console.log('USER CARD READY'); this.oldValue = this.get('value'); } insertedCallback: function(event){ console.log("INSERTED", this, this.$el); this.set('someValue', this.get('otherValue')); this.$el.focus(); this.$('#awesomeselector'); }, }); })() || {};
   var style = "";
-  var component = Backbone.Controller.extend(script, { __name: "user-card" });
+  var component = Backbone.Component.extend(script, { __name: "user-card" });
   var proto = Object.create(HTMLElement.prototype, {});
   proto.createdCallback = function(){
     this.__template = new component({template: template, outlet: this, data: Rebound.seedData});

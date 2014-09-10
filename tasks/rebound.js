@@ -55,7 +55,7 @@ module.exports = function(grunt) {
 
         // Compile
         src = rebound.precompile(src, {
-          filepath: filepath,
+          name: filepath,
           baseDest: options.baseDest,
           baseUrl: options.baseUrl
         });
