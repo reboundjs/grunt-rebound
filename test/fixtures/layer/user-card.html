@@ -1,32 +1,261 @@
-<element name="user-card">
+<element name="collegia-edit-profile">
   <template>
-    <link rel="import" href="/path/to/imports/stuff.html">
-    <link href='/path/to/imports/stuff.html' rel="import">
-    <a href="/profile/{{user.uid}}" class="user-card">
-      <img src="{{user.image}}" alt="{{user.name}}">
-      <h3 class="user-name small-text sans-serif">{{user.name}}asdf</h3>
-      <p class="user-school x-small-text dark-text">{{user.school}}</p>
-      <p class="user-goal serif"><span>${{user.raised}}</span> of ${{user.goal}}</p>
-      <p class="user-tagline x-small-text serif">"{{user.tagline}}"</p>
-      <div class="user-bar"><span style="width:{{user.percent}}"></span></div>
-      {{>path/to/partial}}
-      {{> "path/to/partial2"}}
 
-    </a>
-    <span></span>
+    <link href="shared/components/dynamic-input.html">
+    <link rel="import" href="shared/components/typeahead-input.html">
+
+    <section class="edit-campaign">
+      <div class="edit-campaign-container">
+
+        <h3 class="profile-edit-title">
+          <b>Step 1:</b> Campaign Creation
+        </h3>
+
+        <div class="edit-campaign-form">
+          <span class="prompt">I want to raise: &nbsp;&nbsp; $</span>
+          <dynamic-input input="true" id="profile-campaign-amount" class="edit-campaign-amount" name="campaignMonths" value="{{campaignMonths}}" required="required" animate="true" label="Enter amount here"></dynamic-input>
+          <span class="prompt">in</span>
+          <dynamic-input input="true" id="profile-campaign-months" class="edit-campaign-months" name="campaignMonths" value="{{campaignMonths}}" required="required" animate="true" label="months"></dynamic-input>
+          <dynamic-input input="true" id="profile-campaign-years" class="edit-campaign-years" name="campaignYears" value="{{campaignYears}}" required="required" animate="true" label="years"></dynamic-input>
+        </div>
+      </div>
+    </section>
+
+    <div class="profile-container">
+
+      <i class="profile-banner" style="
+        background-image:url({{banner}});
+        background-image:url({{banner}}),url(/images/users/banner/ghost.png);
+        ">
+
+        <h3 class="profile-edit-title">
+          <b>Step 2:</b> Profile Page
+        </h3>
+
+        <i class="edit-icon fa fa-pencil"></i>
+        <form enctype="multipart/form-data" method="post" class="user-banner-form" action="/user/banner/update">
+          <input type="file" name="image">
+        </form>
+        <img src="{{banner}}" alt="{{firstName}} {{lastName}} Banner">
+
+        <button class="fa fa-camera">Click or drag-and-drop to upload profile/cover photo</button>
+
+      </i>
+
+      <i class="profile-image" style="
+        background-image:url({{largeImage}});
+        background-image:url({{largeImage}}),url(/images/users/thumb/ghost.svg);
+        ">
+        <i class="edit-icon fa fa-pencil"></i>
+        <form enctype="multipart/form-data" method="post" class="user-image-form" action="/user/image/update">
+          <input type="file" name="image">
+        </form>
+        <img src="{{largeImage}}" alt="{{firstName}} {{lastName}} Profile Image">
+      </i>
+
+      <h1 class="name-headline">{{firstName}} {{lastName}}</h1>
+
+      <section class="profile-content">
+        <h5 class="sans-serif ">Basic Info</h5>
+
+          <dynamic-input input="true" id="profile-user-first-name" class="first-third" name="firstName" value="{{firstName}}" required="required" animate="true" label="First Name"></dynamic-input>
+          <dynamic-input input="true" id="profile-user-middle-name" class="middle-third" name="middleName" value="{{middleName}}" required="required" animate="true" label="Middle Name"></dynamic-input>
+          <dynamic-input input="true" id="profile-user-last-name" class="last-third" name="lastName" value="{{lastName}}" required="required" animate="true" label="Last Name"></dynamic-input>
+          <dynamic-input input="true" id="profile-user-tagline" name="tagline" value="{{tagline}}" required="required" animate="true" label="Tagline (140 characters max)" tip="A tweet-sized autobiography to showcase who you are. Keep it short and sweet." maxlength="140" ></dynamic-input>
+          <dynamic-input textarea="true" id="profile-user-pitch" name="pitch" value="{{pitch}}" required="required" animate="true" label="Elevator Pitch" tip="Your chance to tell your story. What would life look like with no student debt?" ></dynamic-input>
+          <typeahead-input id="profile-user-college" name="college" label="University Name" value="{{collegeName}}" url="/schools"></typeahead-input>
+
+          <dynamic-input input="true" id="profile-user-college" class="first-half" name="college" value="{{collegeName}}" required="required" animate="true" label="University Name" ></dynamic-input>
+
+
+          <div id="dd" class="wrapper-dropdown-multiselect last-half">
+              <span class="label">Field of study</span>
+              <ul class="dropdown">
+                  <li><input type="checkbox" id="fiel-1" name="fieldOfStudy" value="donut"><label for="fiel-1">Eat a donut</label></li>
+                  <li><input type="checkbox" id="fiel-2" name="fieldOfStudy" value="neighbour"><label for="fiel-2">Spy on my neighbours</label></li>
+                  <li><input type="checkbox" id="fiel-3" name="fieldOfStudy" value="T-rex"><label for="fiel-3">Feed my T-Rex</label></li>
+                <li><input type="checkbox" id="fiel-1" name="fieldOfStudy" value="donut"><label for="fiel-1">Eat a donut</label></li>
+                <li><input type="checkbox" id="fiel-2" name="fieldOfStudy" value="neighbour"><label for="fiel-2">Spy on my neighbours</label></li>
+                <li><input type="checkbox" id="fiel-3" name="fieldOfStudy" value="T-rex"><label for="fiel-3">Feed my T-Rex</label></li><li><input type="checkbox" id="fiel-1" name="fieldOfStudy" value="donut"><label for="fiel-1">Eat a donut</label></li>
+                <li><input type="checkbox" id="fiel-2" name="fieldOfStudy" value="neighbour"><label for="fiel-2">Spy on my neighbours</label></li>
+                <li><input type="checkbox" id="fiel-3" name="fieldOfStudy" value="T-rex"><label for="fiel-3">Feed my T-Rex</label></li><li><input type="checkbox" id="fiel-1" name="fieldOfStudy" value="donut"><label for="fiel-1">Eat a donut</label></li>
+                <li><input type="checkbox" id="fiel-2" name="fieldOfStudy" value="neighbour"><label for="fiel-2">Spy on my neighbours</label></li>
+                <li><input type="checkbox" id="fiel-3" name="fieldOfStudy" value="T-rex"><label for="fiel-3">Feed my T-Rex</label></li>
+              </ul>
+          </div>
+
+          <div id="dd" class="wrapper-dropdown first-half">
+              <span class="label">Highest level completed</span>
+              <ul class="dropdown">
+                  <li><input type="radio" id="level-3" name="highestLevel" value="highSchool"><label for="level-3">None</label></li>
+                  <li><input type="radio" id="level-4" name="highestLevel" value="highSchool"><label for="level-4">High School Degree</label></li>
+                  <li><input type="radio" id="level-5" name="highestLevel" value="2"><label for="level-5">Associates Degree</label></li>
+                  <li><input type="radio" id="level-6" name="highestLevel" value="4"><label for="level-6">Bachelors Degree</label></li>
+                  <li><input type="radio" id="level-7" name="highestLevel" value="masters"><label for="level-7">Masters Degree</label></li>
+                  <li><input type="radio" id="level-8" name="highestLevel" value="phd"><label for="level-8">Doctorate</label></li>
+
+              </ul>
+          </div>
+
+          <dynamic-input input="true" id="profile-user-graduation" class="last-half" name="graduation" value="{{graduation}}" required="required" animate="true" label="Graduation/Andicipated Graduation" ></dynamic-input>
+          <dynamic-input textarea="true" id="profile-user-education-story" name="educationStory" value="{{educationStory}}" required="required" animate="true" label="Education" tip="Tell us some more about your college career" ></dynamic-input>
+
+
+        {{! basic professional profile  }}
+
+          <div id="dd" class="wrapper-dropdown first-half">
+              <span class="label">Industry</span>
+              <ul class="dropdown">
+                  <li><input type="radio" id="industry-3" name="highestLevel" value="highSchool"><label for="industry-3">None</label></li>
+                  <li><input type="radio" id="industry-4" name="highestLevel" value="highSchool"><label for="industry-4">High School Degree</label></li>
+                  <li><input type="radio" id="industry-5" name="highestLevel" value="2"><label for="industry-5">Associates Degree</label></li>
+                  <li><input type="radio" id="industry-7" name="highestLevel" value="4"><label for="industry-7">Bachelors Degree</label></li>
+                  <li><input type="radio" id="industry-8" name="highestLevel" value="masters"><label for="industry-8">Masters Degree</label></li>
+                  <li><input type="radio" id="industry-9" name="highestLevel" value="phd"><label for="industry-8">Doctorate</label></li>
+
+              </ul>
+          </div>
+
+          <dynamic-input textarea="true" id="profile-user-employment-story" name="employmentStory" value="{{employmentStory}}" required="required" animate="true" label="Employment Background" tip="Tell us about your current/past employment experience" ></dynamic-input>
+
+        {{! legal  }}
+
+        <p class="terms-and-conditions">
+          <dynamic-input checkbox="true" id="legal-1" class="first-half" name="tcsAgreement" value="true" required="required" animate="true" label="I agree to the terms & conditions" ></dynamic-input>
+        </p>
+
+        <a href="/legal/service" class="secondary-link">Terms of Service</a>
+        <a href="/legal/grants" class="secondary-link">Terms of Grants</a>
+        <a href="/legal/privacy" class="secondary-link">Privacy Policy</a>
+
+        <button class="save-basic-profile light">Save</button>
+
+      </section>
+
+      <section class="profile-content">
+        <h5 class="sans-serif ">Advanced Info</h5>
+        <p class="section-info">The more complete this section is, the more likely you will be considered for Collegia special grants! Items marked private will only be used for our own grant consideration process and won't be visible on your profile.</p>
+
+        <h6 class="sans-serif ">Personal Info</h6>
+
+        {{! Phone }}
+
+        <label for="profile-user-primary-phone" class="placeholder first-half">
+          <input type="text" id="profile-user-primary-phone" name="primaryPhone" value="{{primaryPhone}}" required="required">
+          <span>Primary phone number</span>
+        </label>
+
+        <label for="profile-user-secondary-phone" class="placeholder last-half">
+          <input type="text" id="profile-user-secondary-phone" name="secondaryPhone" value="{{secondaryPhone}}" required="required">
+          <span>Secondary phone number</span>
+        </label>
+
+
+        {{! Birthday }}
+
+        <div class="profile-user-birthday">
+          <label class="profile-edit-label">Date of birth</label>
+          <div id="dd" class="wrapper-dropdown first-third">
+              <span class="label">Month</span>
+              <ul class="dropdown">
+                  <li><input type="radio" id="birthday-month-1" name="birthdayMonth" value="1"><label for="birthday-month-1">Jan</label></li>
+                  <li><input type="radio" id="birthday-month-2" name="birthdayMonth" value="2"><label for="birthday-month-2">Feb</label></li>
+                  <li><input type="radio" id="birthday-month-3" name="birthdayMonth" value="3"><label for="birthday-month-3">Mar</label></li>
+                  <li><input type="radio" id="birthday-month-4" name="birthdayMonth" value="4"><label for="birthday-month-4">Apr</label></li>
+                  <li><input type="radio" id="birthday-month-5" name="birthdayMonth" value="5"><label for="birthday-month-5">May</label></li>
+                  <li><input type="radio" id="birthday-month-6" name="birthdayMonth" value="6"><label for="birthday-month-6">Jun</label></li>
+                  <li><input type="radio" id="birthday-month-7" name="birthdayMonth" value="7"><label for="birthday-month-7">Jul</label></li>
+                  <li><input type="radio" id="birthday-month-8" name="birthdayMonth" value="8"><label for="birthday-month-8">Aug</label></li>
+                  <li><input type="radio" id="birthday-month-9" name="birthdayMonth" value="9"><label for="birthday-month-9">Sept</label></li>
+                  <li><input type="radio" id="birthday-month-10" name="birthdayMonth" value="10"><label for="birthday-month-10">Oct</label></li>
+                  <li><input type="radio" id="birthday-month-11" name="birthdayMonth" value="11"><label for="birthday-month-11">Nov</label></li>
+                  <li><input type="radio" id="birthday-month-12" name="birthdayMonth" value="12"><label for="birthday-month-12">Dec</label></li>
+              </ul>
+          </div>
+          <div id="dd" class="wrapper-dropdown first-third">
+              <span class="label">Day</span>
+              <ul class="dropdown">
+                {{#for '1' '31' '1'}}
+                  <li><input type="radio" id="birthday-year-{{this}}" name="birthdayYear" value="1"><label for="birthday-year-{{this}}">{{this}}</label></li>
+                {{/for}}
+              </ul>
+          </div>
+
+          <div id="dd" class="wrapper-dropdown first-third">
+              <span class="label">Year</span>
+              <ul class="dropdown">
+                  {{#for '1955' '2016' '1'}}
+                    <li><input type="radio" id="birthday-year-{{this}}" name="birthdayYear" value="1"><label for="birthday-year-{{this}}">{{this}}</label></li>
+                  {{/for}}
+              </ul>
+          </div>
+        </div>
+
+        <div id="dd" class="wrapper-dropdown last-half">
+            <span class="label">Citizenship Status</span>
+            <ul class="dropdown">
+                <li><input type="radio" id="citizenship-1" name="citizenship" value="1"><label for="citizenship-1">U.S. citizen</label></li>
+                <li><input type="radio" id="citizenship-2" name="citizenship" value="2"><label for="citizenship-2">Eligible noncitizen</label></li>
+                <li><input type="radio" id="citizenship-3" name="citizenship" value="3"><label for="citizenship-3">Neither citizen nor eligible noncitizen </label></li>
+            </ul>
+        </div>
+
+        {{! Dependancy }}
+
+        <div id="dd" class="wrapper-dropdown last-half dependancy-status">
+            <span class="label">Dependancy Status</span>
+            <ul class="dropdown">
+                <li><input type="radio" id="dependancy-1" name="dependancyStatus" value="1"><label for="dependancy-1">Dependant</label></li>
+                <li><input type="radio" id="dependancy-2" name="dependancyStatus" value="2"><label for="dependancy-2">Independant</label></li>
+            </ul>
+        </div>
+
+        <label for="profile-user-num-dependants" class="placeholder last-third">
+          <input type="text" id="profile-user-num-dependants" name="numDependants" class="num-dependants" value="{{numDependants}}" required="required">
+          <span># of dependants</span>
+        </label>
+
+
+        {{! Address }}
+
+
+        <h6 class="sans-serif ">Emergency Contact</h6>
+
+        <h6 class="sans-serif ">Additional College Info</h6>
+
+
+      </section>
+
+      <section class="profile-content">
+
+      </section>
+
+    </div>
   </template>
+
   <script>
     return ({
-      readyCallback: function(event){
-        console.log('USER CARD READY');
-        this.oldValue = this.get('value');
-      }
-      insertedCallback: function(event){
-        console.log("INSERTED", this, this.$el);
-        this.set('someValue', this.get('otherValue'));
-        this.$el.focus();
-        this.$('#awesomeselector');
-      },
-    });
+
+    /*********** Controller Default Configs **************/
+
+        urlRoot : '/profile',
+        idAttribute: 'uid',
+        template: 'templates/profile',
+        routes: {
+          'profile': 'loadProfile',
+          'profile/:uid/edit': 'loadProfile',
+        },
+
+    /************** Controller Functions *****************/
+
+        loadProfile: function(uid){
+          if(uid !== undefined){
+            this.set('uid', uid);
+            this.fetch();
+          }
+          Rebound.pageApp=this;
+        }
+      })
+
   </script>
 </element>
