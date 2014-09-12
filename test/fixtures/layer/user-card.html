@@ -1,8 +1,7 @@
 <element name="user-card">
-  <link rel="import" href="/path/to/imports/stuff.html">
-  <link href='/path/to/imports/stuff.html' rel="import">
-
   <template>
+    <link rel="import" href="/path/to/imports/stuff.html">
+    <link href='/path/to/imports/stuff.html' rel="import">
     <a href="/profile/{{user.uid}}" class="user-card">
       <img src="{{user.image}}" alt="{{user.name}}">
       <h3 class="user-name small-text sans-serif">{{user.name}}asdf</h3>
@@ -11,7 +10,7 @@
       <p class="user-tagline x-small-text serif">"{{user.tagline}}"</p>
       <div class="user-bar"><span style="width:{{user.percent}}"></span></div>
       {{>path/to/partial}}
-      {{> "path/to/partial"}}
+      {{> "path/to/partial2"}}
 
     </a>
     <span></span>
