@@ -48,12 +48,13 @@ return (function(){
   var cachedFragment;
   return function template(context, env, contextualElement) {
     var dom = env.dom, hooks = env.hooks;
+    dom.detectNamespace(contextualElement);
     if (cachedFragment === undefined) {
       cachedFragment = build(dom);
     }
     var fragment = dom.cloneNode(cachedFragment, true);
     var element0 = fragment.childNodes[0];
-    dom.repairClonedNode(element0,[7]);
+    dom.repairClonedNode(element0,[6]);
     var element1 = element0.childNodes[0];
     var element2 = element0.childNodes[3];
     var element3 = element0.childNodes[5].childNodes[0];
@@ -67,35 +68,34 @@ return (function(){
     hooks.element(element0, "attribute", context, ["href",hooks.subexpr("concat", context, ["/profile/",hooks.subexpr("user.uid", context, [], {context:context,types:[],hashTypes:{},hash:{}}, env)], {context:context,types:["string","sexpr"],hashTypes:{},hash:{}}, env)], {context:context,types:["string","sexpr"],hashTypes:{},hash:{},element:element0}, env);
     hooks.element(element1, "attribute", context, ["src",hooks.subexpr("user.image", context, [], {context:context,types:[],hashTypes:{},hash:{}}, env)], {context:context,types:["string","sexpr"],hashTypes:{},hash:{},element:element1}, env);
     hooks.element(element1, "attribute", context, ["alt",hooks.subexpr("user.name", context, [], {context:context,types:[],hashTypes:{},hash:{}}, env)], {context:context,types:["string","sexpr"],hashTypes:{},hash:{},element:element1}, env);
-    hooks.content(morph0, "user.name", context, [], {escaped:true}, env);
-    hooks.content(morph1, "user.school", context, [], {escaped:true}, env);
-    hooks.content(morph2, "user.raised", context, [], {escaped:true}, env);
-    hooks.content(morph3, "user.goal", context, [], {escaped:true}, env);
-    hooks.content(morph4, "user.tagline", context, [], {escaped:true}, env);
+    hooks.content(morph0, "user.name", context, [], {context:context,escaped:true,morph:morph0}, env);
+    hooks.content(morph1, "user.school", context, [], {context:context,escaped:true,morph:morph1}, env);
+    hooks.content(morph2, "user.raised", context, [], {context:context,escaped:true,morph:morph2}, env);
+    hooks.content(morph3, "user.goal", context, [], {context:context,escaped:true,morph:morph3}, env);
+    hooks.content(morph4, "user.tagline", context, [], {context:context,escaped:true,morph:morph4}, env);
     hooks.element(element3, "attribute", context, ["style",hooks.subexpr("concat", context, ["width:",hooks.subexpr("user.percent", context, [], {context:context,types:[],hashTypes:{},hash:{}}, env)], {context:context,types:["string","sexpr"],hashTypes:{},hash:{}}, env)], {context:context,types:["string","sexpr"],hashTypes:{},hash:{},element:element3}, env);
     hooks.content(morph5, "partial", context, ["path/to/partial"], {context:context,types:["string"],hashTypes:{},hash:{},escaped:true,morph:morph5}, env);
     hooks.content(morph6, "partial", context, ["path/to/partial"], {context:context,types:["string"],hashTypes:{},hash:{},escaped:true,morph:morph6}, env);
     return fragment;
   };
 }());
-  var script = (function(){ return ({ readyCallback: function(event){ console.log('USER CARD READY'); this.oldValue = this.get('value'); } insertedCallback: function(event){ console.log("INSERTED", this, this.$el); this.set('someValue', this.get('otherValue')); this.$el.focus(); this.$('#awesomeselector'); }, }); })() || {};
+  var script = (function(){ return ({ readyCallback: function(event){ console.log('USER CARD READY'); this.oldValue = this.get('value'); } insertedCallback: function(event){ console.log("INSERTED", this, this.$el); this.set('someValue', this.get('otherValue')); this.$el.focus(); this.$('#awesomeselector'); }, }); })();
   var style = "";
   var component = Rebound.Component.extend(script, { __name: "user-card" });
   var proto = Object.create(HTMLElement.prototype, {});
   proto.createdCallback = function(){
-    this.__template = new component({template: template, outlet: this, data: Rebound.seedData});
-    script.createdCallback && script.createdCallback.call(this.__template);
+    this.__component__ = new component({template: template, outlet: this, data: Rebound.seedData});
   }
-  proto.attachedCallback = function(){script.attachedCallback && script.attachedCallback.call(this.__template)};
+  proto.attachedCallback = function(){script.attachedCallback && script.attachedCallback.call(this.__component__)};
   proto.detachedCallback = function(){
-    this.__template.deinitialize();
-    script.detachedCallback && script.detachedCallback.call(this.__template);
+    this.__component__.deinitialize();
+    script.detachedCallback && script.detachedCallback.call(this.__component__);
     };
   proto.attributeChangedCallback = function(attrName, oldVal, newVal){
     try{ newVal = JSON.parse(newVal); } catch (e){ newVal = newVal; }
-    if(newVal === null){ this.__template.unset(attrName); }
-    else{ this.__template.set(attrName, newVal); }
-    script.attributeChangedCallback && script.attributeChangedCallback.call(this.__template);
+    if(newVal === null){ this.__component__.unset(attrName); }
+    else{ this.__component__.set(attrName, newVal); }
+    script.attributeChangedCallback && script.attributeChangedCallback.call(this.__component__);
   }
   return document.registerElement("user-card", {prototype: proto} );
 })();
