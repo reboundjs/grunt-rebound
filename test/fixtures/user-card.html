@@ -2,6 +2,8 @@
   <link rel="import" href="/path/to/imports/stuff.html">
   <link href='/path/to/imports/stuff.html' rel="import">
 
+  <link href='/path/to/partial.html' rel="import">
+
   <template>
     <a href="/profile/{{user.uid}}" class="user-card">
       <img src="{{user.image}}" alt="{{user.name}}">
@@ -10,8 +12,8 @@
       <p class="user-goal serif"><span>${{user.raised}}</span> of ${{user.goal}}</p>
       <p class="user-tagline x-small-text serif">"{{user.tagline}}"</p>
       <div class="user-bar"><span style="width:{{user.percent}}"></span></div>
-      {{>path/to/partial}}
-      {{> "path/to/partial"}}
+      {{partial 'path/to/partial'}}
+      {{partial "path/to/partial"}}
 
     </a>
     <span></span>
