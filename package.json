@@ -32,7 +32,7 @@
     "grunt-contrib-jshint": "^0.9.2",
     "grunt-contrib-nodeunit": "^0.3.3",
     "handlebars": "^2.0.0-alpha.4",
-    "reboundjs": "^0.0.46"
+    "reboundjs": "git://github.com/epicmiller/rebound.git#f9f830600f7f4eaaf37016a94306ed979a5d4d83"
   },
   "peerDependencies": {
     "grunt": "~0.4.5"

@@ -1,9 +1,14 @@
 define( [], function(){
-return (function(){
-  var template = (function() {
+
+  return (function () {
+    return window.Rebound.registerComponent("user-card", {
+      prototype: (function(){ return ({ readyCallback: function(event){ console.log('USER CARD READY'); this.oldValue = this.get('value'); } insertedCallback: function(event){ console.log("INSERTED", this, this.$el); this.set('someValue', this.get('otherValue')); this.$el.focus(); this.$('#awesomeselector'); }, }); })(),
+      template: (function() {
   return {
     isHTMLBars: true,
+    blockParams: 0,
     cachedFragment: null,
+    hasRendered: false,
     build: function build(dom) {
       var el0 = dom.createDocumentFragment();
       var el1 = dom.createElement("a");
@@ -52,54 +57,51 @@ return (function(){
     },
     render: function render(context, env, contextualElement) {
       var dom = env.dom;
-      var hooks = env.hooks, get = hooks.get, attribute = hooks.attribute, content = hooks.content;
+      var hooks = env.hooks, get = hooks.get, concat = hooks.concat, attribute = hooks.attribute, content = hooks.content, inline = hooks.inline;
       dom.detectNamespace(contextualElement);
+      var fragment;
       if (this.cachedFragment === null) {
-        this.cachedFragment = this.build(dom);
+        fragment = this.build(dom);
+        if (this.hasRendered) {
+          this.cachedFragment = fragment;
+        } else {
+          this.hasRendered = true;
+        }
       }
-      var fragment = dom.cloneNode(this.cachedFragment, true);
-      var element0 = fragment.childNodes[0];
-      var element1 = element0.childNodes[0];
-      var element2 = element0.childNodes[3];
-      var element3 = element0.childNodes[5].childNodes[0];
-      var morph0 = dom.createMorphAt(element0.childNodes[1],-1,0);
-      var morph1 = dom.createMorphAt(element0.childNodes[2],-1,-1);
-      var morph2 = dom.createMorphAt(element2.childNodes[0],0,-1);
+      if (this.cachedFragment) {
+        fragment = dom.cloneNode(this.cachedFragment, true);
+      }
+      var element0 = dom.childAt(fragment, [0]);
+      var element1 = dom.childAt(element0, [0]);
+      var element2 = dom.childAt(element0, [3]);
+      var element3 = dom.childAt(element0, [5, 0]);
+      var attrMorph0 = dom.createAttrMorph(element0, 'href');
+      var attrMorph1 = dom.createAttrMorph(element1, 'src');
+      var attrMorph2 = dom.createAttrMorph(element1, 'alt');
+      var morph0 = dom.createMorphAt(dom.childAt(element0, [1]),-1,0);
+      var morph1 = dom.createMorphAt(dom.childAt(element0, [2]),-1,-1);
+      var morph2 = dom.createMorphAt(dom.childAt(element2, [0]),0,-1);
       var morph3 = dom.createMorphAt(element2,1,-1);
-      var morph4 = dom.createMorphAt(element0.childNodes[4],0,1);
+      var morph4 = dom.createMorphAt(dom.childAt(element0, [4]),0,1);
+      var attrMorph3 = dom.createAttrMorph(element3, 'style');
       var morph5 = dom.createMorphAt(element0,6,7);
       var morph6 = dom.createMorphAt(element0,7,8);
-      attribute(element0, "href", true, context, ["/profile/",get(context, "user.uid", env)], {}, env);
-      attribute(element1, "src", true, context, [get(context, "user.image", env)], {}, env);
-      attribute(element1, "alt", true, context, [get(context, "user.name", env)], {}, env);
-      content(morph0, "user.name", context, [], {}, {morph:morph0}, env);
-      content(morph1, "user.school", context, [], {}, {morph:morph1}, env);
-      content(morph2, "user.raised", context, [], {}, {morph:morph2}, env);
-      content(morph3, "user.goal", context, [], {}, {morph:morph3}, env);
-      content(morph4, "user.tagline", context, [], {}, {morph:morph4}, env);
-      attribute(element3, "style", true, context, ["width:",get(context, "user.percent", env)], {}, env);
-      content(morph5, "partial", context, ["path/to/partial"], {}, {morph:morph5}, env);
-      content(morph6, "partial", context, ["path/to/partial"], {}, {morph:morph6}, env);
+      attribute(env, attrMorph0, element0, "href", concat(env, ["/profile/", get(env, context, "user.uid")]));
+      attribute(env, attrMorph1, element1, "src", concat(env, [get(env, context, "user.image")]));
+      attribute(env, attrMorph2, element1, "alt", concat(env, [get(env, context, "user.name")]));
+      content(env, morph0, context, "user.name");
+      content(env, morph1, context, "user.school");
+      content(env, morph2, context, "user.raised");
+      content(env, morph3, context, "user.goal");
+      content(env, morph4, context, "user.tagline");
+      attribute(env, attrMorph3, element3, "style", concat(env, ["width:", get(env, context, "user.percent")]));
+      inline(env, morph5, context, "partial", ["path/to/partial"], {});
+      inline(env, morph6, context, "partial", ["path/to/partial"], {});
       return fragment;
     }
   };
-}())
-  var script = (function(){ return ({ readyCallback: function(event){ console.log('USER CARD READY'); this.oldValue = this.get('value'); } insertedCallback: function(event){ console.log("INSERTED", this, this.$el); this.set('someValue', this.get('otherValue')); this.$el.focus(); this.$('#awesomeselector'); }, }); })();
-  var style = "";
-  var component = Rebound.Component.extend(script, { __name: "user-card" });
-  var proto = Object.create(HTMLElement.prototype, {});
-  proto.createdCallback = function(){
-    this.__component__ = new component({template: template, outlet: this, data: Rebound.seedData});
-  }
-  proto.attachedCallback = function(){script.attachedCallback && script.attachedCallback.call(this.__component__)};
-  proto.detachedCallback = function(){
-    script.detachedCallback && script.detachedCallback.call(this.__component__);
-    this.__component__.deinitialize();
-    };
-  proto.attributeChangedCallback = function(attrName, oldVal, newVal){
-    this.__component__._onAttributeChange(attrName, oldVal, newVal);
-    script.attributeChangedCallback && script.attributeChangedCallback.call(this.__component__, attrName, oldVal, newVal);
-  }
-  return document.registerElement("user-card", {prototype: proto} );
-})();
+}()),
+      style: ""
+    });
+  })();
 });
