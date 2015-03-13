@@ -9,11 +9,17 @@ define( [], function(){
     build: function build(dom) {
       var el0 = dom.createDocumentFragment();
       var el1 = dom.createElement("div");
+      var el2 = dom.createTextNode("\n  ");
+      dom.appendChild(el1, el2);
       var el2 = dom.createElement("p");
       var el3 = dom.createComment("");
       dom.appendChild(el2, el3);
       dom.appendChild(el1, el2);
+      var el2 = dom.createTextNode("\n  ");
+      dom.appendChild(el1, el2);
       var el2 = dom.createElement("img");
+      dom.appendChild(el1, el2);
+      var el2 = dom.createTextNode("\n");
       dom.appendChild(el1, el2);
       dom.appendChild(el0, el1);
       return el0;
@@ -39,8 +45,8 @@ define( [], function(){
         fragment = this.build(dom);
       }
       var element0 = dom.childAt(fragment, [0]);
-      var element1 = dom.childAt(element0, [1]);
-      var morph0 = dom.createMorphAt(dom.childAt(element0, [0]),0,0);
+      var element1 = dom.childAt(element0, [3]);
+      var morph0 = dom.createMorphAt(dom.childAt(element0, [1]),0,0);
       var attrMorph0 = dom.createAttrMorph(element1, 'src');
       content(env, morph0, context, "test1");
       attribute(env, attrMorph0, element1, "src", concat(env, [get(env, context, "test2")]));
