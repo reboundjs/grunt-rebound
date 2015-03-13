@@ -6,6 +6,7 @@ define( [], function(){
       template: (function() {
   return {
     isHTMLBars: true,
+    revision: "HTMLBars@VERSION_STRING_PLACEHOLDER",
     blockParams: 0,
     cachedFragment: null,
     hasRendered: false,
@@ -17,24 +18,34 @@ define( [], function(){
       dom.appendChild(el1, el2);
       var el2 = dom.createElement("h3");
       dom.setAttribute(el2,"class","user-name small-text sans-serif");
+      var el3 = dom.createComment("");
+      dom.appendChild(el2, el3);
       var el3 = dom.createTextNode("asdf");
       dom.appendChild(el2, el3);
       dom.appendChild(el1, el2);
       var el2 = dom.createElement("p");
       dom.setAttribute(el2,"class","user-school x-small-text dark-text");
+      var el3 = dom.createComment("");
+      dom.appendChild(el2, el3);
       dom.appendChild(el1, el2);
       var el2 = dom.createElement("p");
       dom.setAttribute(el2,"class","user-goal serif");
       var el3 = dom.createElement("span");
       var el4 = dom.createTextNode("$");
       dom.appendChild(el3, el4);
+      var el4 = dom.createComment("");
+      dom.appendChild(el3, el4);
       dom.appendChild(el2, el3);
       var el3 = dom.createTextNode(" of $");
+      dom.appendChild(el2, el3);
+      var el3 = dom.createComment("");
       dom.appendChild(el2, el3);
       dom.appendChild(el1, el2);
       var el2 = dom.createElement("p");
       dom.setAttribute(el2,"class","user-tagline x-small-text serif");
       var el3 = dom.createTextNode("\"");
+      dom.appendChild(el2, el3);
+      var el3 = dom.createComment("");
       dom.appendChild(el2, el3);
       var el3 = dom.createTextNode("\"");
       dom.appendChild(el2, el3);
@@ -46,7 +57,11 @@ define( [], function(){
       dom.appendChild(el1, el2);
       var el2 = dom.createTextNode(" ");
       dom.appendChild(el1, el2);
+      var el2 = dom.createComment("");
+      dom.appendChild(el1, el2);
       var el2 = dom.createTextNode(" ");
+      dom.appendChild(el1, el2);
+      var el2 = dom.createComment("");
       dom.appendChild(el1, el2);
       var el2 = dom.createTextNode(" ");
       dom.appendChild(el1, el2);
@@ -60,16 +75,20 @@ define( [], function(){
       var hooks = env.hooks, get = hooks.get, concat = hooks.concat, attribute = hooks.attribute, content = hooks.content, inline = hooks.inline;
       dom.detectNamespace(contextualElement);
       var fragment;
-      if (this.cachedFragment === null) {
-        fragment = this.build(dom);
-        if (this.hasRendered) {
-          this.cachedFragment = fragment;
-        } else {
-          this.hasRendered = true;
+      if (env.useFragmentCache && dom.canClone) {
+        if (this.cachedFragment === null) {
+          fragment = this.build(dom);
+          if (this.hasRendered) {
+            this.cachedFragment = fragment;
+          } else {
+            this.hasRendered = true;
+          }
         }
-      }
-      if (this.cachedFragment) {
-        fragment = dom.cloneNode(this.cachedFragment, true);
+        if (this.cachedFragment) {
+          fragment = dom.cloneNode(this.cachedFragment, true);
+        }
+      } else {
+        fragment = this.build(dom);
       }
       var element0 = dom.childAt(fragment, [0]);
       var element1 = dom.childAt(element0, [0]);
@@ -78,14 +97,14 @@ define( [], function(){
       var attrMorph0 = dom.createAttrMorph(element0, 'href');
       var attrMorph1 = dom.createAttrMorph(element1, 'src');
       var attrMorph2 = dom.createAttrMorph(element1, 'alt');
-      var morph0 = dom.createMorphAt(dom.childAt(element0, [1]),-1,0);
-      var morph1 = dom.createMorphAt(dom.childAt(element0, [2]),-1,-1);
-      var morph2 = dom.createMorphAt(dom.childAt(element2, [0]),0,-1);
-      var morph3 = dom.createMorphAt(element2,1,-1);
-      var morph4 = dom.createMorphAt(dom.childAt(element0, [4]),0,1);
+      var morph0 = dom.createMorphAt(dom.childAt(element0, [1]),0,0);
+      var morph1 = dom.createMorphAt(dom.childAt(element0, [2]),0,0);
+      var morph2 = dom.createMorphAt(dom.childAt(element2, [0]),1,1);
+      var morph3 = dom.createMorphAt(element2,2,2);
+      var morph4 = dom.createMorphAt(dom.childAt(element0, [4]),1,1);
       var attrMorph3 = dom.createAttrMorph(element3, 'style');
-      var morph5 = dom.createMorphAt(element0,6,7);
-      var morph6 = dom.createMorphAt(element0,7,8);
+      var morph5 = dom.createMorphAt(element0,7,7);
+      var morph6 = dom.createMorphAt(element0,9,9);
       attribute(env, attrMorph0, element0, "href", concat(env, ["/profile/", get(env, context, "user.uid")]));
       attribute(env, attrMorph1, element1, "src", concat(env, [get(env, context, "user.image")]));
       attribute(env, attrMorph2, element1, "alt", concat(env, [get(env, context, "user.name")]));
