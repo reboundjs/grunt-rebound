@@ -8,7 +8,7 @@
 
 'use strict';
 
-var rebound = require('reboundjs');
+var precompile = require('reboundjs');
 
 module.exports = function(grunt) {
 
@@ -54,7 +54,7 @@ module.exports = function(grunt) {
         }
 
         // Compile
-        src = rebound.precompile(src, {
+        src = precompile(src, {
           name: filepath,
           baseDest: options.baseDest,
           baseUrl: options.baseUrl

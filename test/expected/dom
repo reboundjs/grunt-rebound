@@ -1,12 +1,12 @@
-define( [], function(){
-(function(){var template = (function() {
+
+      define( [  ], function(){
+        var template = (function() {
   return {
-    isHTMLBars: true,
-    revision: "HTMLBars@VERSION_STRING_PLACEHOLDER",
-    blockParams: 0,
+    meta: {},
+    arity: 0,
     cachedFragment: null,
     hasRendered: false,
-    build: function build(dom) {
+    buildFragment: function buildFragment(dom) {
       var el0 = dom.createDocumentFragment();
       var el1 = dom.createElement("div");
       var el2 = dom.createTextNode("\n  ");
@@ -24,35 +24,21 @@ define( [], function(){
       dom.appendChild(el0, el1);
       return el0;
     },
-    render: function render(context, env, contextualElement) {
-      var dom = env.dom;
-      var hooks = env.hooks, content = hooks.content, get = hooks.get, concat = hooks.concat, attribute = hooks.attribute;
-      dom.detectNamespace(contextualElement);
-      var fragment;
-      if (env.useFragmentCache && dom.canClone) {
-        if (this.cachedFragment === null) {
-          fragment = this.build(dom);
-          if (this.hasRendered) {
-            this.cachedFragment = fragment;
-          } else {
-            this.hasRendered = true;
-          }
-        }
-        if (this.cachedFragment) {
-          fragment = dom.cloneNode(this.cachedFragment, true);
-        }
-      } else {
-        fragment = this.build(dom);
-      }
+    buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
       var element0 = dom.childAt(fragment, [0]);
       var element1 = dom.childAt(element0, [3]);
-      var morph0 = dom.createMorphAt(dom.childAt(element0, [1]),0,0);
-      var attrMorph0 = dom.createAttrMorph(element1, 'src');
-      content(env, morph0, context, "test1");
-      attribute(env, attrMorph0, element1, "src", concat(env, [get(env, context, "test2")]));
-      return fragment;
-    }
+      var morphs = new Array(2);
+      morphs[0] = dom.createMorphAt(dom.childAt(element0, [1]),0,0);
+      morphs[1] = dom.createAttrMorph(element1, 'src');
+      return morphs;
+    },
+    statements: [
+      ["content","test1"],
+      ["attribute","src",["concat",[["get","test2"]]]]
+    ],
+    locals: [],
+    templates: []
   };
-}())
- window.Rebound.registerPartial( "dom", template);})();
-});
+}());
+        window.Rebound.registerPartial("dom", template);
+      });

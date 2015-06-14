@@ -1,8 +1,7 @@
-define( [], function(){
 
-  return (function () {
-    return window.Rebound.registerComponent("user-card", {
-      prototype: (function(){
+      define( [  ], function(){
+        return window.Rebound.registerComponent("user-card", {
+          prototype: (function(){
     return ({
       readyCallback: function(event){
         console.log('USER CARD READY');
@@ -16,14 +15,13 @@ define( [], function(){
       },
     });
   })(),
-      template: (function() {
+          template: (function() {
   return {
-    isHTMLBars: true,
-    revision: "HTMLBars@VERSION_STRING_PLACEHOLDER",
-    blockParams: 0,
+    meta: {},
+    arity: 0,
     cachedFragment: null,
     hasRendered: false,
-    build: function build(dom) {
+    buildFragment: function buildFragment(dom) {
       var el0 = dom.createDocumentFragment();
       var el1 = dom.createTextNode("\n    ");
       dom.appendChild(el0, el1);
@@ -101,57 +99,42 @@ define( [], function(){
       dom.appendChild(el0, el1);
       return el0;
     },
-    render: function render(context, env, contextualElement) {
-      var dom = env.dom;
-      var hooks = env.hooks, get = hooks.get, concat = hooks.concat, attribute = hooks.attribute, content = hooks.content, inline = hooks.inline;
-      dom.detectNamespace(contextualElement);
-      var fragment;
-      if (env.useFragmentCache && dom.canClone) {
-        if (this.cachedFragment === null) {
-          fragment = this.build(dom);
-          if (this.hasRendered) {
-            this.cachedFragment = fragment;
-          } else {
-            this.hasRendered = true;
-          }
-        }
-        if (this.cachedFragment) {
-          fragment = dom.cloneNode(this.cachedFragment, true);
-        }
-      } else {
-        fragment = this.build(dom);
-      }
+    buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
       var element0 = dom.childAt(fragment, [1]);
       var element1 = dom.childAt(element0, [1]);
       var element2 = dom.childAt(element0, [7]);
       var element3 = dom.childAt(element0, [11, 0]);
-      var attrMorph0 = dom.createAttrMorph(element0, 'href');
-      var attrMorph1 = dom.createAttrMorph(element1, 'src');
-      var attrMorph2 = dom.createAttrMorph(element1, 'alt');
-      var morph0 = dom.createMorphAt(dom.childAt(element0, [3]),0,0);
-      var morph1 = dom.createMorphAt(dom.childAt(element0, [5]),0,0);
-      var morph2 = dom.createMorphAt(dom.childAt(element2, [0]),1,1);
-      var morph3 = dom.createMorphAt(element2,2,2);
-      var morph4 = dom.createMorphAt(dom.childAt(element0, [9]),1,1);
-      var attrMorph3 = dom.createAttrMorph(element3, 'style');
-      var morph5 = dom.createMorphAt(element0,13,13);
-      var morph6 = dom.createMorphAt(element0,15,15);
-      attribute(env, attrMorph0, element0, "href", concat(env, ["/profile/", get(env, context, "user.uid")]));
-      attribute(env, attrMorph1, element1, "src", concat(env, [get(env, context, "user.image")]));
-      attribute(env, attrMorph2, element1, "alt", concat(env, [get(env, context, "user.name")]));
-      content(env, morph0, context, "user.name");
-      content(env, morph1, context, "user.school");
-      content(env, morph2, context, "user.raised");
-      content(env, morph3, context, "user.goal");
-      content(env, morph4, context, "user.tagline");
-      attribute(env, attrMorph3, element3, "style", concat(env, ["width:", get(env, context, "user.percent")]));
-      inline(env, morph5, context, "partial", ["path/to/partial"], {});
-      inline(env, morph6, context, "partial", ["path/to/partial"], {});
-      return fragment;
-    }
+      var morphs = new Array(11);
+      morphs[0] = dom.createAttrMorph(element0, 'href');
+      morphs[1] = dom.createAttrMorph(element1, 'src');
+      morphs[2] = dom.createAttrMorph(element1, 'alt');
+      morphs[3] = dom.createMorphAt(dom.childAt(element0, [3]),0,0);
+      morphs[4] = dom.createMorphAt(dom.childAt(element0, [5]),0,0);
+      morphs[5] = dom.createMorphAt(dom.childAt(element2, [0]),1,1);
+      morphs[6] = dom.createMorphAt(element2,2,2);
+      morphs[7] = dom.createMorphAt(dom.childAt(element0, [9]),1,1);
+      morphs[8] = dom.createAttrMorph(element3, 'style');
+      morphs[9] = dom.createMorphAt(element0,13,13);
+      morphs[10] = dom.createMorphAt(element0,15,15);
+      return morphs;
+    },
+    statements: [
+      ["attribute","href",["concat",["/profile/",["get","user.uid"]]]],
+      ["attribute","src",["concat",[["get","user.image"]]]],
+      ["attribute","alt",["concat",[["get","user.name"]]]],
+      ["content","user.name"],
+      ["content","user.school"],
+      ["content","user.raised"],
+      ["content","user.goal"],
+      ["content","user.tagline"],
+      ["attribute","style",["concat",["width:",["get","user.percent"]]]],
+      ["inline","partial",["path/to/partial"],[]],
+      ["inline","partial",["path/to/partial"],[]]
+    ],
+    locals: [],
+    templates: []
   };
 }()),
-      style: ""
-    });
-  })();
-});
+          style: ""
+        });
+      });
