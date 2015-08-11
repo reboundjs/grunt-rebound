@@ -1,4 +1,7 @@
-# grunt-rebound
+<p align="center">
+  <img src="http://reboundjs.com/images/rebound-large.svg" alt="Rebound Logo" width="420px" />
+</p>
+<h1 align="center">grunt-rebound</h1>
 
 > Easily compile your Rebound templates using Grunt.
 
