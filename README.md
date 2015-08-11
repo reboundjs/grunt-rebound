@@ -25,65 +25,31 @@ In your project's Gruntfile, add a section named `rebound` to the data object pa
 ```js
 grunt.initConfig({
   rebound: {
-    options: {
-      // Task-specific options go here.
-    },
-    your_target: {
-      // Target-specific file lists and/or options go here.
-    },
-  },
+    compile:{
+      options: {
+        baseUrl: 'views/',
+        baseDest: 'templates/'
+      },
+      src: ['views/**/*', '!views/layouts/**', '!views/emails/**'],
+      dest: 'public/templates'
+    }
+  }
 });
 ```
 
 ### Options
 
-#### options.separator
+#### options.baseUrl
 Type: `String`
-Default value: `',  '`
+Default value: `''`
 
-A string value that is used to do something with whatever.
+The root folder that all your uncompiled Rebound templates' HTML `<import>` tags are relative to. Ex: If your templates are all in the directory `/views` and your HTML import tags are written relative to that directory, then your baseUrl is `views/`. Please note the trailing slash.
 
-#### options.punctuation
+#### options.baseDest
 Type: `String`
-Default value: `'.'`
+Default value: `''`
 
-A string value that is used to do something else with whatever else.
-
-### Usage Examples
-
-#### Default Options
-In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
-
-```js
-grunt.initConfig({
-  rebound: {
-    options: {},
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
-});
-```
-
-#### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
-
-```js
-grunt.initConfig({
-  rebound: {
-    options: {
-      separator: ': ',
-      punctuation: ' !!!',
-    },
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
-});
-```
+A string value that is prefixed to all of your compiled Rebound templates' dependancy paths. Should be set to the directory path in your pubilc directory that the templates are installed. Ex: If your public directory is `/public` and your templates are compiled to `/public/templates` then your baseDest will be `templates/`. Please note the trailing slash.
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
-
-## Release History
-_(Nothing yet)_
