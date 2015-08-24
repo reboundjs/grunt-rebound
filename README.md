@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="http://reboundjs.com/images/rebound-large.svg" alt="Rebound Logo" width="420px" />
+  <img src="http://reboundjs.com/assets/images/logos/large.svg" alt="Rebound Logo" width="420px" />
 </p>
 <h1 align="center">grunt-rebound</h1>
 
