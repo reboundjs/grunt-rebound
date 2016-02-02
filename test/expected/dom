@@ -1,8 +1,9 @@
-
-      define( [  ], function(){
-        var template = (function() {
+(function(R){
+  R.router._loadDeps([  ]);
+  R.registerPartial("dom", (function() {
   return {
     meta: {},
+    isEmpty: false,
     arity: 0,
     cachedFragment: null,
     hasRendered: false,
@@ -33,12 +34,11 @@
       return morphs;
     },
     statements: [
-      ["content","test1"],
-      ["attribute","src",["concat",[["get","test2"]]]]
+      ["content","test1",["loc",[null,[2,5],[2,14]]]],
+      ["attribute","src",["concat",[["get","test2",["loc",[null,[3,14],[3,19]]]]]]]
     ],
     locals: [],
     templates: []
   };
-}());
-        window.Rebound.registerPartial("dom", template);
-      });
+}()));
+})(window.Rebound);

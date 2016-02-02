@@ -30,8 +30,8 @@ exports.rebound = {
   plaintext: function(test) {
     test.expect(1);
 
-    var actual = grunt.file.read('tmp/plaintext.js');
-    var expected = grunt.file.read('test/expected/plaintext');
+    var actual = grunt.file.read('tmp/plaintext.js').trim();
+    var expected = grunt.file.read('test/expected/plaintext').trim();
     test.equal(actual, expected, 'should render a text template');
 
     test.done();
@@ -39,8 +39,8 @@ exports.rebound = {
   dom: function(test) {
     test.expect(1);
 
-    var actual = grunt.file.read('tmp/dom.js');
-    var expected = grunt.file.read('test/expected/dom');
+    var actual = grunt.file.read('tmp/dom.js').trim();
+    var expected = grunt.file.read('test/expected/dom').trim();
     test.equal(actual, expected, 'should render a template containing dom and mustaches');
 
     test.done();
@@ -48,8 +48,8 @@ exports.rebound = {
   userCard: function(test) {
     test.expect(1);
 
-    var actual = grunt.file.read('tmp/user-card.js');
-    var expected = grunt.file.read('test/expected/user-card');
+    var actual = grunt.file.read('tmp/user-card.js').trim();
+    var expected = grunt.file.read('test/expected/user-card').trim();
     test.equal(actual, expected, 'should render a web component template with two partials');
 
     test.done();

@@ -8,7 +8,7 @@
 
 'use strict';
 
-var precompile = require('reboundjs');
+var precompile = require('reboundjs').default;
 
 module.exports = function(grunt) {
 
@@ -37,7 +37,7 @@ module.exports = function(grunt) {
       }).map(function(filepath) {
         // Read file source.
         var src = grunt.file.read(filepath),
-            regex;
+            regex, res;
 
         // If is a partial
         if(filepath.match(/_[^/]+\.hbs$/gi)){
@@ -54,7 +54,7 @@ module.exports = function(grunt) {
         }
 
         // Compile
-        src = precompile(src, {
+        res = precompile(src, {
           name: filepath,
           baseDest: options.baseDest,
           baseUrl: options.baseUrl
@@ -64,7 +64,7 @@ module.exports = function(grunt) {
         filepath = filepath.replace(/\.html|\.hbs/ig, '.js');
         filepath = filepath.replace(options.baseUrl, '');
 
-        return {src: src, filepath: filepath + '.js'};
+        return {src: res.src, filepath: filepath + '.js'};
 
       }).map(function(comp){
 

@@ -1,8 +1,9 @@
-
-      define( [  ], function(){
-        var template = (function() {
+(function(R){
+  R.router._loadDeps([  ]);
+  R.registerPartial("plaintext", (function() {
   return {
     meta: {},
+    isEmpty: false,
     arity: 0,
     cachedFragment: null,
     hasRendered: false,
@@ -19,6 +20,5 @@
     locals: [],
     templates: []
   };
-}());
-        window.Rebound.registerPartial("plaintext", template);
-      });
+}()));
+})(window.Rebound);

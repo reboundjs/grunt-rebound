@@ -1,7 +1,8 @@
-
-      define( [  ], function(){
-        return window.Rebound.registerComponent("user-card", {
-          prototype: (function(){
+(function(R){
+  R.router._loadDeps([ "path/to/partial", "path/to/partial" ]);
+  document.currentScript.setAttribute("data-name", "user-card");
+  return R.registerComponent("user-card", {
+    prototype: (function(){
     return ({
       readyCallback: function(event){
         console.log('USER CARD READY');
@@ -15,9 +16,10 @@
       },
     });
   })(),
-          template: (function() {
+    template: (function() {
   return {
     meta: {},
+    isEmpty: false,
     arity: 0,
     cachedFragment: null,
     hasRendered: false,
@@ -119,22 +121,22 @@
       return morphs;
     },
     statements: [
-      ["attribute","href",["concat",["/profile/",["get","user.uid"]]]],
-      ["attribute","src",["concat",[["get","user.image"]]]],
-      ["attribute","alt",["concat",[["get","user.name"]]]],
-      ["content","user.name"],
-      ["content","user.school"],
-      ["content","user.raised"],
-      ["content","user.goal"],
-      ["content","user.tagline"],
-      ["attribute","style",["concat",["width:",["get","user.percent"]]]],
-      ["inline","partial",["path/to/partial"],[]],
-      ["inline","partial",["path/to/partial"],[]]
+      ["attribute","href",["concat",["/profile/",["get","user.uid",["loc",[null,[2,24],[2,32]]]]]]],
+      ["attribute","src",["concat",[["get","user.image",["loc",[null,[3,18],[3,28]]]]]]],
+      ["attribute","alt",["concat",[["get","user.name",["loc",[null,[3,39],[3,48]]]]]]],
+      ["content","user.name",["loc",[null,[4,50],[4,63]]]],
+      ["content","user.school",["loc",[null,[5,52],[5,67]]]],
+      ["content","user.raised",["loc",[null,[6,40],[6,55]]]],
+      ["content","user.goal",["loc",[null,[6,67],[6,80]]]],
+      ["content","user.tagline",["loc",[null,[7,50],[7,66]]]],
+      ["attribute","style",["concat",["width:",["get","user.percent",["loc",[null,[8,49],[8,61]]]]]]],
+      ["inline","partial",["path/to/partial"],[],["loc",[null,[9,6],[9,35]]]],
+      ["inline","partial",["path/to/partial"],[],["loc",[null,[10,6],[10,35]]]]
     ],
     locals: [],
     templates: []
   };
 }()),
-          style: ""
-        });
-      });
+    stylesheet: ""
+   });
+})(window.Rebound);
