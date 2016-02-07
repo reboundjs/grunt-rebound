@@ -64,7 +64,7 @@ module.exports = function(grunt) {
         filepath = filepath.replace(/\.html|\.hbs/ig, '.js');
         filepath = filepath.replace(options.baseUrl, '');
 
-        return {src: res.src, filepath: filepath + '.js'};
+        return {src: ((res && res.src) || ''), filepath: filepath + '.js'};
 
       }).map(function(comp){
 
